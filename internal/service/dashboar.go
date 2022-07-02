@@ -2,28 +2,20 @@ package service
 
 import "github.com/donreno/dashboar/internal/types"
 
-type DashboarService interface {
-	LoadDashboard() *types.Dashboard
-}
+type DashboardRetriever func() (*types.Dashboard, error)
 
-type dashboarService struct{}
-
-func New() DashboarService {
-	return new(dashboarService)
-}
-
-func (d *dashboarService) LoadDashboard() *types.Dashboard {
+func GetDashboard() (*types.Dashboard, error) {
 	return loadMockDashboard()
 }
 
-func loadMockDashboard() *types.Dashboard {
+func loadMockDashboard() (*types.Dashboard, error) {
 	dashboard := &types.Dashboard{
 		Title: "My beautiful dashboard",
-		Groups: []types.DashboardGroup{
+		Categories: []types.Category{
 			{
 				Name: "Networking",
 				Icon: "bi-hdd-network",
-				Entries: []types.DashboardEntry{
+				Entries: []types.Entry{
 					{
 						Name:      "PI-hole",
 						Icon:      "bi-ethernet",
@@ -41,7 +33,7 @@ func loadMockDashboard() *types.Dashboard {
 			{
 				Name: "Coding",
 				Icon: "bi-code-slash",
-				Entries: []types.DashboardEntry{
+				Entries: []types.Entry{
 					{
 						Name:      "Github",
 						Icon:      "bi-file-code",
@@ -53,7 +45,7 @@ func loadMockDashboard() *types.Dashboard {
 			{
 				Name: "Networking",
 				Icon: "bi-hdd-network",
-				Entries: []types.DashboardEntry{
+				Entries: []types.Entry{
 					{
 						Name:      "PI-hole",
 						Icon:      "bi-ethernet",
@@ -77,7 +69,7 @@ func loadMockDashboard() *types.Dashboard {
 			{
 				Name: "Coding 2",
 				Icon: "bi-code-slash",
-				Entries: []types.DashboardEntry{
+				Entries: []types.Entry{
 					{
 						Name:      "Github",
 						Icon:      "bi-file-code",
@@ -89,5 +81,5 @@ func loadMockDashboard() *types.Dashboard {
 		},
 	}
 
-	return dashboard
+	return dashboard, nil
 }

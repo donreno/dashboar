@@ -2,9 +2,11 @@ package config
 
 import (
 	"log"
+	"os"
 
 	"github.com/donreno/dashboar/internal/types"
 	"github.com/spf13/viper"
+	"gopkg.in/yaml.v3"
 )
 
 type ConfigurationLoader func() (*types.EnvConfig, *types.Dashboard, error)
@@ -19,7 +21,7 @@ func LoadConfiguration() (conf *types.EnvConfig, dashboar *types.Dashboard, err 
 		return
 	}
 
-	dashboar, err = loadMockDashboard()
+	dashboar, err = loadYamlConfigDashboar(conf.DashBoarConfigPath)
 	if err != nil {
 		log.Printf("Error loading dashboard config %v", err.Error())
 		return
@@ -47,78 +49,20 @@ func loadViperConfig() (conf *types.EnvConfig, err error) {
 	return
 }
 
-func loadMockDashboard() (*types.Dashboard, error) {
-	dashboard := &types.Dashboard{
-		Title: "My beautiful dashboard",
-		Categories: []types.Category{
-			{
-				Name: "Networking",
-				Icon: "bi-hdd-network",
-				Entries: []types.Entry{
-					{
-						Name:      "PI-hole",
-						Icon:      "bi-ethernet",
-						Url:       "http://192.168.4.23:9000",
-						UseNewTab: true,
-					},
-					{
-						Name:      "NAS",
-						Icon:      "bi-hdd-stack",
-						Url:       "http://192.168.4.23:5000",
-						UseNewTab: true,
-					},
-				},
-			},
-			{
-				Name: "Coding",
-				Icon: "bi-code-slash",
-				Entries: []types.Entry{
-					{
-						Name:      "Github",
-						Icon:      "bi-file-code",
-						Url:       "http://github.com/donreno",
-						UseNewTab: true,
-					},
-				},
-			},
-			{
-				Name: "Networking",
-				Icon: "bi-hdd-network",
-				Entries: []types.Entry{
-					{
-						Name:      "PI-hole",
-						Icon:      "bi-ethernet",
-						Url:       "http://192.168.4.23:9000",
-						UseNewTab: true,
-					},
-					{
-						Name:      "NAS",
-						Icon:      "bi-hdd-stack",
-						Url:       "http://192.168.4.23:5000",
-						UseNewTab: true,
-					},
-					{
-						Name:      "Github",
-						Icon:      "bi-file-code",
-						Url:       "http://github.com/donreno",
-						UseNewTab: true,
-					},
-				},
-			},
-			{
-				Name: "Coding 2",
-				Icon: "bi-code-slash",
-				Entries: []types.Entry{
-					{
-						Name:      "Github",
-						Icon:      "bi-file-code",
-						Url:       "http://github.com/donreno",
-						UseNewTab: true,
-					},
-				},
-			},
-		},
+func loadYamlConfigDashboar(path string) (*types.Dashboard, error) {
+	dashboar := new(types.Dashboard)
+
+	file, err := os.Open(path)
+	if err != nil {
+		return nil, err
 	}
 
-	return dashboard, nil
+	decoder := yaml.NewDecoder(file)
+
+	err = decoder.Decode(dashboar)
+	if err != nil {
+		return nil, err
+	}
+
+	return dashboar, nil
 }

@@ -1,22 +1,23 @@
 package types
 
 type Dashboard struct {
-	Title      string
-	Categories []Category
+	Title      string     `yaml:"title"`
+	Categories []Category `yaml:"categories"`
 }
 
 type Category struct {
-	Name, Icon string
-	Entries    []Entry
+	Name    string `yaml:"name"`
+	Icon    string `yaml:"icon"`
+	Entries []Entry
 }
 
 type Entry struct {
-	Name            string
-	Url             string
-	Icon            string
-	IconURL         string
-	HealthCheckPath string
-	UseNewTab       bool
+	Name            string `yaml:"name"`
+	Url             string `yaml:"url"`
+	Icon            string `yaml:"icon"`
+	IconURL         string `yaml:"icon-url"`
+	HealthCheckPath string `yaml:"health-check"`
+	UseNewTab       bool   `yaml:"use-new-tab"`
 }
 
 type EnvConfig struct {

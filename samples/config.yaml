@@ -1,1 +1,23 @@
 title: "My Awesome DashBOAR"
+categories:
+  - name: "Networking"
+    icon: "bi-hdd-network"
+    entries:
+      - name: "Pi-Hole"
+        icon: "bi-ethernet"
+        url: "http://pi-hole.net"
+        use-new-tab: true
+      - name: "My NAS"
+        icon: "bi-hdd-stack"
+        url: "https://www.truenas.com/"
+        use-new-tab: true
+  - name: "Media"
+    entries:
+      - name: "Plex"
+        icon: "bi-film"
+        url: "http://plex.tv"
+        use-new-tab: true
+      - name: "Music"
+        icon: "bi-music-note-list"
+        url: "https://ampache.org/"
+        use-new-tab: true

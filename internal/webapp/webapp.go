@@ -1,6 +1,7 @@
 package webapp
 
 import (
+	"fmt"
 	"log"
 	"time"
 
@@ -13,9 +14,10 @@ import (
 	"github.com/gofiber/template/html"
 
 	"github.com/donreno/dashboar/internal/service"
+	"github.com/donreno/dashboar/internal/types"
 )
 
-func InitWebApp(getDashBOAR service.DashboardRetriever) error {
+func InitWebApp(getDashBOAR service.DashboardRetriever, conf *types.EnvConfig) error {
 
 	log.Println("Initializing Web App 🌎 🐗")
 
@@ -28,8 +30,8 @@ func InitWebApp(getDashBOAR service.DashboardRetriever) error {
 	app.Static("/assets", "./assets")
 
 	app.Use(limiter.New(limiter.Config{
-		Max:               10,
-		Expiration:        30 * time.Second,
+		Max:               conf.LimiterMaxRequests,
+		Expiration:        time.Duration(conf.LimiterExpireTimeSeconds) * time.Second,
 		LimiterMiddleware: limiter.SlidingWindow{},
 	}))
 
@@ -38,7 +40,7 @@ func InitWebApp(getDashBOAR service.DashboardRetriever) error {
 	app.Use(logger.New())
 	app.Use(compress.New())
 	app.Use(cache.New(cache.Config{
-		Expiration: 30 * time.Second,
+		Expiration: time.Duration(conf.CacheExpireTimeSeconds) * time.Second,
 	}))
 
 	app.Get("/", func(c *fiber.Ctx) error {
@@ -55,5 +57,5 @@ func InitWebApp(getDashBOAR service.DashboardRetriever) error {
 
 	log.Println("Web App initialized! 🌎🍻🐗")
 
-	return app.Listen(":3000")
+	return app.Listen(fmt.Sprintf(":%d", conf.Port))
 }

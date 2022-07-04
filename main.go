@@ -16,7 +16,7 @@ func main() {
 		log.Panicf("Error laoding initial configuration!! cause: %v", err.Error())
 	}
 
-	dashboarRetriever := service.MakeDashboarRetriever(dashboarCfg)
+	dashboarRetriever := service.MakeDashboarRetriever(dashboarCfg, service.MakeDisplayableBOARBuilder())
 
 	log.Fatal(webapp.InitWebApp(dashboarRetriever, envCfg))
 }

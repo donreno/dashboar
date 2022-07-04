@@ -2,10 +2,10 @@ package service
 
 import "github.com/donreno/dashboar/internal/types"
 
-type DashboardRetriever func() (*types.Dashboard, error)
+type DashboardRetriever func() (*types.DisplayableDashboard, error)
 
-func MakeDashboarRetriever(dashboar *types.Dashboard) DashboardRetriever {
-	return func() (*types.Dashboard, error) {
-		return dashboar, nil
+func MakeDashboarRetriever(dashboar *types.Dashboard, boarBuilder DisplayableBoarBuilder) DashboardRetriever {
+	return func() (*types.DisplayableDashboard, error) {
+		return boarBuilder(dashboar)
 	}
 }

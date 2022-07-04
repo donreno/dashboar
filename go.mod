@@ -5,6 +5,7 @@ go 1.18
 require (
 	github.com/gofiber/fiber/v2 v2.34.1
 	github.com/gofiber/template v1.6.28
+	github.com/google/uuid v1.3.0
 	github.com/spf13/viper v1.12.0
 	gopkg.in/yaml.v3 v3.0.0
 )

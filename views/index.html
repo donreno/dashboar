@@ -38,15 +38,15 @@
       <div class="container-fluid" >
         <div class="row">
           {{range $index,$element := .Categories}}
-          <div class="col-4" style="padding-left: 10px; padding-top: 15px;">
+          <div id="category-{{.ID}}" class="col-4" style="padding-left: 10px; padding-top: 15px;">
             <div class="card">
               <div class="card-header">
                 <i class="{{.Icon}}"></i> {{.Name}}
               </div>
               <ul class="list-group list-group-flush">
                 {{range $index,$element := .Entries}}
-                <li class="list-group-item {{.Icon}}">
-                  <a href="{{.Url}}" {{if .UseNewTab}} target="_blank" {{end}}>{{.Name}}</a>
+                <li id="entry-{{.ID}}" class="list-group-item {{.Icon}}">
+                  {{if .UseFavIcon}} <img src="{{.IconURL}}" /> {{end}}<a href="{{.Url}}" {{if .UseNewTab}} target="_blank" {{end}}> {{.Name}}</a>
                 </li>
                 {{end}}
               </ul>

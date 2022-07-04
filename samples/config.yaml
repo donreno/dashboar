@@ -4,7 +4,7 @@ categories:
     icon: "bi-hdd-network"
     entries:
       - name: "Pi-Hole"
-        icon: "bi-ethernet"
+        icon: "favicon"
         url: "http://pi-hole.net"
         use-new-tab: true
       - name: "My NAS"
@@ -14,7 +14,7 @@ categories:
   - name: "Media"
     entries:
       - name: "Plex"
-        icon: "bi-film"
+        icon: "favicon"
         url: "http://plex.tv"
         use-new-tab: true
       - name: "Music"

@@ -27,7 +27,8 @@ func InitWebApp(getDashBOAR service.DashboardRetriever, conf *types.EnvConfig) e
 		Views: engine,
 	})
 
-	app.Static("/assets", "./assets")
+	app.Use(logger.New())
+	app.Use(compress.New())
 
 	app.Use(limiter.New(limiter.Config{
 		Max:               conf.LimiterMaxRequests,
@@ -35,13 +36,17 @@ func InitWebApp(getDashBOAR service.DashboardRetriever, conf *types.EnvConfig) e
 		LimiterMiddleware: limiter.SlidingWindow{},
 	}))
 
-	app.Use(favicon.New())
-
-	app.Use(logger.New())
-	app.Use(compress.New())
 	app.Use(cache.New(cache.Config{
 		Expiration: time.Duration(conf.CacheExpireTimeSeconds) * time.Second,
 	}))
+
+	app.Static("/assets", "./assets")
+
+	app.Use(favicon.New(
+		favicon.Config{
+			File: "./assets/favicon.ico",
+		},
+	))
 
 	app.Get("/", func(c *fiber.Ctx) error {
 

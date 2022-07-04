@@ -40,7 +40,7 @@ func loadViperConfig() (conf *types.EnvConfig, err error) {
 	viper.SetDefault("DASHBOAR_PORT", 8000)
 	viper.SetDefault("LIMITER_MAX_REQUESTS", 20)
 	viper.SetDefault("LIMITER_EXPIRE_TIME_SECONDS", 5)
-	viper.SetDefault("CACHE_EXPIRE_TIME_SECONDS", 60)
+	viper.SetDefault("CACHE_EXPIRE_TIME_SECONDS", 30)
 
 	viper.AutomaticEnv()
 
